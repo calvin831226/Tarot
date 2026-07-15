@@ -339,10 +339,7 @@ function revealCard(index, wrapper) {
   // 顯示解析面板
   setTimeout(() => {
     showCardReading(index);
-    if (revealedCards === totalCards) {
-      setTimeout(showFinalResultBtn, 800);
-    }
-  }, 500);
+  }, 350);
 }
 
 function showCardReading(index) {
@@ -362,15 +359,41 @@ function showCardReading(index) {
 
   panel.classList.add('panel-flash');
   setTimeout(() => panel.classList.remove('panel-flash'), 600);
+
+  // 當所有牌翻完時，直接顯示按鈕
+  if (revealedCards === totalCards) {
+    showFinalResultBtn();
+  }
 }
 
 function showFinalResultBtn() {
-  const btn = document.createElement('button');
-  btn.id = 'show-result-btn';
-  btn.className = 'btn-primary pulse-glow';
-  btn.innerHTML = '✨ 查看完整占卜結論';
-  btn.onclick = showResult;
-  $('reading-actions').appendChild(btn);
+  // 清除舊按鈕防止重複
+  const existingBtns = document.querySelectorAll('.show-result-btn-class');
+  existingBtns.forEach(btn => btn.remove());
+
+  // 1. 在牌格下方的按鈕
+  const actions = $('reading-actions');
+  actions.innerHTML = '';
+  const btn1 = document.createElement('button');
+  btn1.className = 'btn-primary pulse-glow show-result-btn-class';
+  btn1.innerHTML = '✨ 查看完整占卜結論';
+  btn1.onclick = showResult;
+  btn1.style.opacity = '1';
+  btn1.style.transform = 'none';
+  actions.appendChild(btn1);
+
+  // 2. 同步在解析面板底部顯示按鈕 (方便手機直立式閱讀完直接點擊)
+  const panel = $('reading-panel');
+  const btn2 = document.createElement('button');
+  btn2.className = 'btn-primary pulse-glow show-result-btn-class';
+  btn2.style.marginTop = '1.5rem';
+  btn2.style.width = '100%';
+  btn2.style.justifyContent = 'center';
+  btn2.innerHTML = '✨ 查看完整占卜結論';
+  btn2.onclick = showResult;
+  btn2.style.opacity = '1';
+  btn2.style.transform = 'none';
+  panel.appendChild(btn2);
 }
 
 // ══ 第四階段：完整結論 ══

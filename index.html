@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>塔羅占卜師 — 用塔羅看見你的內心真相</title>
+  <meta name="description" content="結合榮格心理學與神秘學的塔羅牌占卜網站。選擇問題類別，讓78張偉特塔羅牌為你揭示潛意識的答案，給予溫暖而實用的人生指引。">
+  <meta name="keywords" content="塔羅牌,占卜,塔羅占卜,心理分析,人生指引,感情占卜,事業占卜">
+  <meta property="og:title" content="塔羅占卜師 — 用塔羅看見你的內心真相">
+  <meta property="og:description" content="結合榮格心理學與神秘學的免費線上塔羅牌占卜">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- 星空背景 -->
+<canvas id="starfield" aria-hidden="true"></canvas>
+
+<!-- 版權標記 -->
+<div id="credit-badge" aria-hidden="true">製作 by Xunzax</div>
+
+<div id="app">
+
+  <!-- ══ 第0相：歡迎畫面 ══ -->
+  <section class="phase" id="phase-welcome" aria-label="歡迎畫面">
+    <div class="welcome-orb" aria-hidden="true"></div>
+    <span class="welcome-symbol" aria-hidden="true">✦</span>
+    <h1 class="welcome-title">塔羅占卜師</h1>
+    <p class="welcome-subtitle">Tarot Oracle · 偉特牌系統 · 榮格心理學</p>
+    <p id="welcome-tagline">
+      每一張牌，都是你內心深處的一面鏡子。<br>
+      說出你的困惑，讓星光為你照亮前行的道路。
+    </p>
+    <button id="start-btn" class="btn-primary" onclick="startDivination()" aria-label="開始占卜">
+      ✨ 開始占卜
+    </button>
+  </section>
+
+  <!-- ══ 第1相：主題分類選擇 ══ -->
+  <section class="phase" id="phase-category" aria-label="選擇占卜主題" style="overflow-y:auto;">
+    <div class="category-container">
+      <div class="phase-header" style="text-align:center; margin-bottom:2.5rem;">
+        <span class="phase-icon" aria-hidden="true">🔮</span>
+        <h2 class="phase-title">你今天想占卜什麼？</h2>
+        <p class="phase-subtitle">選擇最符合你當下困惑的主題，讓占卜師為你引導</p>
+      </div>
+
+      <div class="category-grid" id="category-grid" aria-label="占卜主題分類">
+
+        <button class="category-card" onclick="selectCategory(this)"
+                data-category="love"
+                data-icon="💕"
+                data-color="rose"
+                data-placeholder="例如：我和他的感情未來有結果嗎？&#10;或：我暗戀的人對我有感覺嗎？&#10;或：這段感情是否值得繼續維持？"
+                data-examples='["我和他的感情走向如何？","這段感情有結果嗎？","他現在對我的感覺是什麼？","我們還有機會在一起嗎？","如何改善兩人之間的關係？"]'>
+          <div class="cat-icon">💕</div>
+          <div class="cat-name">感情愛情</div>
+          <div class="cat-desc">愛情走向・告白抉擇<br>感情維繫・暗戀心理</div>
+          <div class="cat-arcana">聖杯牌組的主場</div>
+        </button>
+
+        <button class="category-card" onclick="selectCategory(this)"
+                data-category="career"
+                data-icon="💼"
+                data-color="blue"
+                data-placeholder="例如：我近期工作上是否有突破的機會？&#10;或：這份工作適合我繼續做下去嗎？&#10;或：我應該要跳槽換工作嗎？"
+                data-examples='["近期工作是否有新機會？","這份工作值得繼續嗎？","應該跳槽換環境嗎？","創業的時機成熟了嗎？","如何在職場中獲得認可？"]'>
+          <div class="cat-icon">💼</div>
+          <div class="cat-name">事業工作</div>
+          <div class="cat-desc">職涯發展・升遷機遇<br>創業轉職・職場人際</div>
+          <div class="cat-arcana">權杖牌組的主場</div>
+        </button>
+
+        <button class="category-card" onclick="selectCategory(this)"
+                data-category="wealth"
+                data-icon="💰"
+                data-color="green"
+                data-placeholder="例如：近期我的財運如何？&#10;或：這項投資值得嗎？&#10;或：如何改善我目前的財務狀況？"
+                data-examples='["近期財運如何？","這項投資值得嗎？","如何改善財務狀況？","何時是賺錢的好時機？","有哪些潛在的財務風險？"]'>
+          <div class="cat-icon">💰</div>
+          <div class="cat-name">財富金錢</div>
+          <div class="cat-desc">財運走向・投資決策<br>理財規劃・機遇把握</div>
+          <div class="cat-arcana">錢幣牌組的主場</div>
+        </button>
+
+        <button class="category-card" onclick="selectCategory(this)"
+                data-category="health"
+                data-icon="🌿"
+                data-color="teal"
+                data-placeholder="例如：我最近身心狀態如何？&#10;或：如何走出這段情緒低潮？&#10;或：什麼事情正在消耗我的能量？"
+                data-examples='["我目前的身心狀態如何？","如何走出低潮情緒？","什麼事消耗了我的能量？","如何找回生活的平衡？","我的壓力從何而來？"]'>
+          <div class="cat-icon">🌿</div>
+          <div class="cat-name">健康身心</div>
+          <div class="cat-desc">身心狀態・情緒療癒<br>壓力釋放・能量平衡</div>
+          <div class="cat-arcana">節制・力量牌的智慧</div>
+        </button>
+
+        <button class="category-card" onclick="selectCategory(this)"
+                data-category="relationship"
+                data-icon="👥"
+                data-color="purple"
+                data-placeholder="例如：我和某位家人之間的關係如何改善？&#10;或：這段友誼值得深交嗎？&#10;或：如何處理人際間的衝突？"
+                data-examples='["如何改善與家人的關係？","這段友誼值得深交嗎？","如何處理人際衝突？","我在他人眼中的形象如何？","如何建立更深的人際連結？"]'>
+          <div class="cat-icon">👥</div>
+          <div class="cat-name">家庭人際</div>
+          <div class="cat-desc">家庭關係・友誼深度<br>人際衝突・社群連結</div>
+          <div class="cat-arcana">聖杯・正義牌的智慧</div>
+        </button>
+
+        <button class="category-card" onclick="selectCategory(this)"
+                data-category="decision"
+                data-icon="⚖️"
+                data-color="amber"
+                data-placeholder="例如：A方案和B方案，哪一個更適合我？&#10;或：要留還是要走？&#10;或：現在是做這個決定的好時機嗎？"
+                data-examples='["A方案和B方案哪個更好？","現在是改變的好時機嗎？","要留在現狀還是勇敢改變？","這個決定的風險值得冒嗎？","我內心真正想要的是什麼？"]'>
+          <div class="cat-icon">⚖️</div>
+          <div class="cat-name">決策抉擇</div>
+          <div class="cat-desc">二選一困境・重大決定<br>時機判斷・方向選擇</div>
+          <div class="cat-arcana">正義・戰車牌的智慧</div>
+        </button>
+
+        <button class="category-card" onclick="selectCategory(this)"
+                data-category="spiritual"
+                data-icon="✨"
+                data-color="indigo"
+                data-placeholder="例如：我現在的人生方向是否正確？&#10;或：我這個階段的人生課題是什麼？&#10;或：我的潛意識在傳遞什麼訊息給我？"
+                data-examples='["我現在的人生方向正確嗎？","這個階段的人生課題是什麼？","我的潛意識傳遞了什麼訊息？","如何提升自我的內在力量？","我的守護能量是什麼？"]'>
+          <div class="cat-icon">✨</div>
+          <div class="cat-name">靈性成長</div>
+          <div class="cat-desc">人生方向・潛意識解讀<br>靈魂課題・內在智慧</div>
+          <div class="cat-arcana">大阿爾克那的深度</div>
+        </button>
+
+        <button class="category-card" onclick="selectCategory(this)"
+                data-category="daily"
+                data-icon="☀️"
+                data-color="orange"
+                data-placeholder="例如：今天我需要注意什麼？&#10;或：給我今日的一個啟示。&#10;或：今天的整體運勢如何？"
+                data-examples='["今天需要注意什麼？","給我今日的啟示。","今天的整體運勢？","今天的工作順利嗎？","今天適合做重要決定嗎？"]'>
+          <div class="cat-icon">☀️</div>
+          <div class="cat-name">每日運勢</div>
+          <div class="cat-desc">今日指引・當下能量<br>運勢提醒・日常洞察</div>
+          <div class="cat-arcana">單牌精準解讀</div>
+        </button>
+
+      </div>
+
+      <div style="text-align:center; margin-top:2rem;">
+        <button class="btn-secondary" onclick="showPhase('phase-welcome')">← 返回首頁</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ 第2相：輸入詳細問題 ══ -->
+  <section class="phase" id="phase-input" aria-label="輸入問題" style="overflow-y:auto;">
+    <div class="input-container">
+      <div class="phase-header">
+        <!-- 動態標題由 JS 填入 -->
+        <div id="selected-category-badge" class="selected-cat-badge"></div>
+        <h2 class="phase-title" id="input-phase-title">說出你的問題</h2>
+        <p class="phase-subtitle" id="input-phase-subtitle">越具體的問題，越能得到精準的解讀</p>
+      </div>
+
+      <div class="question-box">
+        <textarea
+          id="question-input"
+          rows="4"
+          placeholder="請輸入你的問題…"
+          aria-label="輸入占卜問題"
+        ></textarea>
+        <div class="input-footer">
+          <span class="input-hint">💡 盡量描述具體情境與感受</span>
+          <span class="input-hint">Enter 送出</span>
+        </div>
+      </div>
+
+      <!-- 動態問題範例（依分類更換）-->
+      <div class="question-examples" id="question-examples" aria-label="問題範例"></div>
+
+      <div style="text-align:center; display:flex; gap:1rem; justify-content:center; flex-wrap:wrap;">
+        <button class="btn-primary" onclick="handleQuestionSubmit()" id="submit-question-btn" style="opacity:1;transform:none;">
+          🔮 抽牌解惑
+        </button>
+        <button class="btn-secondary" onclick="showPhase('phase-category')">
+          ← 更換主題
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ 第3相：牌陣確認 ══ -->
+  <section class="phase" id="phase-spread-confirm" aria-label="選擇牌陣" style="overflow-y:auto;">
+    <div class="spread-confirm-container">
+      <div class="phase-header" style="text-align:center; margin-bottom:1.5rem;">
+        <span class="phase-icon" aria-hidden="true">⚜️</span>
+        <h2 class="phase-title">為你推薦牌陣</h2>
+      </div>
+
+      <div class="confirm-question">
+        <div class="confirm-question-label">你的問題</div>
+        <div id="confirm-question-text"></div>
+      </div>
+
+      <div class="spread-recommendation">
+        <div class="spread-recommend-label">✦ 智慧推薦 ✦</div>
+        <div id="spread-name"></div>
+        <div id="spread-description"></div>
+        <div style="margin-top:0.75rem;"><span id="spread-count"></span></div>
+      </div>
+
+      <div class="spreads-section-title">或自選其他牌陣</div>
+      <div id="all-spreads" aria-label="所有牌陣選項"></div>
+
+      <div class="confirm-actions">
+        <button class="btn-primary" onclick="confirmSpread()" style="opacity:1;transform:none;">
+          🃏 開始洗牌抽牌
+        </button>
+        <button class="btn-secondary" onclick="showPhase('phase-input')">
+          ← 修改問題
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ 第4相：洗牌 ══ -->
+  <section class="phase" id="phase-shuffle" aria-label="洗牌">
+    <div class="shuffle-container">
+      <div class="phase-header" style="text-align:center;">
+        <span class="phase-icon" aria-hidden="true">✨</span>
+        <h2 class="phase-title">正在為你洗牌</h2>
+      </div>
+
+      <div id="shuffle-cards" aria-hidden="true"></div>
+
+      <p id="shuffle-instruction">
+        請閉上眼睛，<br>
+        在心中默念你的問題，<br>
+        感受你此刻的情緒與直覺…
+      </p>
+
+      <button class="btn-primary" onclick="beginReading()" style="opacity:1;transform:none;">
+        🌟 我準備好了，開始抽牌
+      </button>
+    </div>
+  </section>
+
+  <!-- ══ 第5相：翻牌解讀 ══ -->
+  <section class="phase" id="phase-reading" aria-label="翻牌解讀" style="overflow-y:auto;">
+    <div class="reading-header">
+      <h2 id="spread-title-display"></h2>
+      <p id="cards-remaining"></p>
+    </div>
+
+    <div class="reading-content">
+      <div>
+        <div id="card-grid" aria-label="塔羅牌陣"></div>
+        <div id="reading-actions"></div>
+      </div>
+
+      <aside>
+        <div id="reading-panel" aria-live="polite" aria-label="牌義解析">
+          <div class="reading-panel-placeholder">
+            <span aria-hidden="true">✦</span>
+            <span>點擊任意一張牌<br>開始翻牌解讀</span>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ══ 第6相：完整結論 ══ -->
+  <section class="phase" id="phase-result" aria-label="占卜結論" style="overflow-y:auto;">
+    <div class="result-container">
+      <div class="result-header">
+        <div class="result-ornament" aria-hidden="true">
+          <div class="ornament-line"></div>
+          <span class="ornament-symbol">✦</span>
+          <div class="ornament-line"></div>
+        </div>
+        <h2 class="result-title">完整占卜結論</h2>
+        <p class="result-date" id="result-date"></p>
+      </div>
+
+      <!-- 牌面摘要 -->
+      <div id="result-cards-summary" aria-label="本次抽牌結果"></div>
+
+      <div class="divider" aria-hidden="true">✦</div>
+
+      <!-- 能量分析 -->
+      <div class="result-section">
+        <h3 class="result-section-title">
+          <span class="section-icon" aria-hidden="true">🔮</span>
+          牌陣能量分析
+        </h3>
+        <div id="energy-analysis"></div>
+      </div>
+
+      <!-- 行動指引 -->
+      <div class="result-section">
+        <h3 class="result-section-title">
+          <span class="section-icon" aria-hidden="true">🌟</span>
+          溫暖的行動指引
+        </h3>
+        <div id="action-guide"></div>
+      </div>
+
+      <!-- 免責聲明 -->
+      <div class="result-section" style="border-color:rgba(255,255,255,0.08); opacity:0.75;">
+        <p style="font-size:0.8rem; color:var(--text-muted); line-height:1.7; text-align:center;">
+          ✨ 塔羅牌是一種心理投射工具，用以引導自我反思，而非算命或宿命論。<br>
+          未來是流動的，你的每一個選擇都在創造它。
+        </p>
+      </div>
+
+      <div class="result-footer">
+        <button class="btn-primary" onclick="resetAll()" style="opacity:1;transform:none;">
+          🔄 再次占卜
+        </button>
+        <button class="btn-secondary" onclick="showPhase('phase-reading')">
+          ← 回看牌陣
+        </button>
+      </div>
+    </div>
+  </section>
+
+</div><!-- /#app -->
+
+<script src="js/tarot-data.js"></script>
+<script src="js/spreads.js"></script>
+<script src="js/engine.js"></script>
+<script src="js/card-art.js"></script>
+<script src="js/app.js"></script>
+<script>
+  // 顯示日期
+  document.addEventListener('DOMContentLoaded', () => {
+    const dateEl = document.getElementById('result-date');
+    if (dateEl) {
+      const now = new Date();
+      dateEl.textContent = now.toLocaleDateString('zh-TW', {
+        year: 'numeric', month: 'long', day: 'numeric', weekday: 'long'
+      });
+    }
+  });
+</script>
+</body>
+</html>

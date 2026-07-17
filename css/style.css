@@ -21,6 +21,7 @@
   --glass-border: rgba(201, 168, 76, 0.25);
   --card-width: 90px;
   --card-height: 144px;
+  --card-radius: 8px;
   --transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -633,7 +634,7 @@ body::before {
   position: absolute;
   inset: 0;
   backface-visibility: hidden;
-  border-radius: 8px;
+  border-radius: var(--card-radius, 8px);
   overflow: visible; /* 允許外光圈與發光效果顯示在卡片外部 */
 }
 
@@ -1003,10 +1004,11 @@ body::before {
   }
 
   /* 牌面尺寸縮小 */
-  --card-width: 68px;
-  --card-height: 109px;
-  .card-flip-container { width: 68px; height: 109px; }
-  .card-flip-container svg { width: 68px !important; height: 109px !important; }
+  :root {
+    --card-width: 68px;
+    --card-height: 109px;
+    --card-radius: 5px;
+  }
   .card-position-label { font-size: 0.65rem; white-space: normal; text-align: center; max-width: 70px; }
   #card-grid { gap: 0.6rem; }
 
@@ -1048,9 +1050,11 @@ body::before {
   .reading-content { grid-template-columns: 1fr; gap: 1.25rem; }
   #reading-panel { position: static; }
 
-  --card-width: 80px;
-  --card-height: 128px;
-  .card-flip-container { width: 80px; height: 128px; }
+  :root {
+    --card-width: 80px;
+    --card-height: 128px;
+    --card-radius: 6px;
+  }
 
   #phase-reading { padding: 1.25rem; }
   #phase-input, #phase-spread-confirm { padding: 1.5rem; }

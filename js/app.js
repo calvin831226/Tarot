@@ -313,10 +313,10 @@ function createCardElement(index, card, position) {
     <div class="card-flip-container" id="flip-${index}">
       <div class="card-inner">
         <div class="card-face card-back">
-          <svg viewBox="0 0 100 160" width="90" height="144">${getCardBackSVG()}</svg>
+          <svg viewBox="0 0 100 160" width="100%" height="100%">${getCardBackSVG()}</svg>
         </div>
         <div class="card-face card-front">
-          <svg viewBox="0 0 100 160" width="90" height="144" class="${card.isReversed ? 'reversed' : ''}">
+          <svg viewBox="0 0 100 160" width="100%" height="100%" class="${card.isReversed ? 'reversed' : ''}">
             ${getCardSVGContent(card)}
           </svg>
         </div>
